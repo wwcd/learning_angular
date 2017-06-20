@@ -14,7 +14,7 @@ export class PiplineComponent implements OnInit {
 
     ngOnInit() {
         this.refresh();
-        setInterval(() => this.refresh(), 1000);
+        setInterval(() => this.refresh(), 3000);
     }
 
     refresh() {

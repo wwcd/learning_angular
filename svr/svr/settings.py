@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Celery setting
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost'
+CELERY_BROKER_URL = 'redis://{}:6379/0'.format(os.environ['REDIS_IP'])
+CELERY_RESULT_BACKEND = 'redis://{}'.format(os.environ['REDIS_IP'])
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -90,7 +90,7 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'redis://localhost:6379/1',
+        'LOCATION': 'redis://{}:6379/1'.format(os.environ['REDIS_IP']),
     },
 }
 

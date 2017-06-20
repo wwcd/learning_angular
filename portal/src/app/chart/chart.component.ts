@@ -14,6 +14,11 @@ export class ChartComponent implements OnInit {
     constructor(private chartService: ChartService) { }
 
     ngOnInit() {
+        this.refresh();
+        setInterval(() => this.refresh(), 3600000);
+    }
+
+    refresh() {
         this.chartService.getCiData().subscribe(
             data => this.ciData = data,
             error => console.error(error)
@@ -58,16 +63,16 @@ export class ChartComponent implements OnInit {
 	];
 
 	public barChartColors:Array<any> = [
-		{ // grey
+		{
 			backgroundColor: 'green',
 		},
-		{ // dark grey
+		{
 			backgroundColor: 'powderblue',
 		},
-		{ // grey
+		{
 			backgroundColor: 'wheat',
 		},
-		{ // dark grey
+		{
 			backgroundColor: 'pink',
 		},
 	];

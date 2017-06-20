@@ -85,7 +85,7 @@ class CiView(APIView):
                 SELECT *
                 FROM code_complexity
                 WHERE product = 'vManager' AND `executdate` >= '{}' AND complexity > 10.0
-                ORDER BY executdate DESC;
+                ORDER BY executdate DESC,complexity DESC;
                 '''.format(from_date),
                 200
             ),
