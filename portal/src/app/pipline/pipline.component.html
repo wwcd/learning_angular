@@ -1,0 +1,37 @@
+<div class="container">
+	<p>
+	  <ngb-alert type="info" [dismissible]="false">
+		<strong>PIPLINE实时监控</strong>
+	  </ngb-alert>
+	</p>
+
+    <div class="row" style="font-size:12px">
+        <div class="col" *ngFor="let _link of pipline; let i=index" >
+            <table class="table table-sm" *ngIf="_link">
+                <thead class="thead-default">
+                    <tr>
+                        <th>
+                            <a [href]="_link._links.self.href">{{_link.name}}</a> {{_link.status}} {{duration(_link)}}
+                        </th>
+                        <th width=100>STATUS</th>
+                        <th width=120>DURATION</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let _stage of _link.stages">
+                        <td>{{_stage.name}}</td>
+                        <td *ngIf="status(_stage) as _status">
+                            <ngb-progressbar 
+                               [type]="_status.type" 
+                               [value]="100" 
+                               [striped]="_status.striped" 
+                               [animated]="_status.animated"
+                            >{{_status.status}}</ngb-progressbar>
+                        </td>
+                        <td>{{duration(_stage)}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

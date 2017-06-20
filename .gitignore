@@ -1,0 +1,8 @@
+/portal/dist/
+/portal/node_modules/
+/portal/src/**/*.js
+/svr/env/
+.ropeproject/
+*.pyc
+*.sqlite3
+celerybeat-schedule

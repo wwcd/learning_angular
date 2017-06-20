@@ -1,0 +1,175 @@
+<div class="container" *ngIf="ecData">
+	<br>
+	<p>
+	  <ngb-alert type="info" [dismissible]="false">
+		<strong>待开发处理变更</strong>
+	  </ngb-alert>
+	</p>
+
+    <div>
+        <strong>待开发处理变更活动数:</strong> {{ecData.devinfo.stat_c_15764}}<br>
+        <strong>待开发处理变量研究数:</strong> {{ecData.devinfo.stat_c_15765}}
+    </div><br>
+
+	<ngb-accordion #acc="ngbAccordion">
+	<ngb-panel id="toggle-1" title="详情">
+	<ng-template ngbPanelContent>
+    <div class="row" style="max-height:400px;overflow:auto;font-size:10px">
+		<table class="table table-sm">
+			<thead class="thead-default">
+				<tr>
+					<th>变更单处理人</th>
+					<th>待处理变更活动单</th>
+					<th>待处理变更研究单</th>
+					<th>待处理总数</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let _data of ecData.devinfo.rows">
+					<td *ngFor="let _i of ['c_15761','c_15764','c_15765','c_15766']">
+						{{_data[_i]}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</ng-template>
+	</ngb-panel>
+	</ngb-accordion>
+
+	<br>
+	<p>
+	  <ngb-alert type="info" [dismissible]="false">
+		<strong>待CCB处理变更</strong>
+	  </ngb-alert>
+	</p>
+
+	<div>
+		<div style="display: block">
+			<canvas baseChart height=80
+	   [datasets]="barChartData"
+	   [labels]="barChartLabels"
+	   [options]="barChartOptions"
+	   [colors]="barChartColors"
+	   [legend]="barChartLegend"
+	   [chartType]="barChartType"
+	   (chartHover)="chartHovered($event)"
+	   (chartClick)="chartClicked($event)"></canvas>
+		</div>
+	</div>
+	<br>
+
+	<ngb-accordion #acc="ngbAccordion">
+	<ngb-panel id="toggle-1" title="详情">
+	<ng-template ngbPanelContent>
+    <div class="row" style="max-height:400px;overflow:auto;font-size:10px">
+		<table class="table table-sm">
+			<thead class="thead-default">
+				<tr>
+					<th>状态</th>
+					<th>待CCB处理变更请求数</th>
+					<th>待CCB处理变更活动数</th>
+					<th>待CCB处理变更请求数（已超期）</th>
+					<th>待CCB处理变更活动数（已超期）</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let _data of ecData.ccbinfo.rows">
+					<td *ngFor="let _i of ['c_15772','c_15768','c_15769','c_15770', 'c_15771']">
+						{{_data[_i]}}
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</ng-template>
+	</ngb-panel>
+	</ngb-accordion>
+</div>
+
+<div class="container" *ngIf="ciData">
+	<br>
+	<p>
+	  <ngb-alert type="info" [dismissible]="false">
+		<strong>UT执行情况</strong>
+	  </ngb-alert>
+	</p>
+
+    <div *ngIf="ciData.ut_statstic[0] as ut_stat ">
+        <strong>UT成功率:</strong> {{ut_stat[5]}} 
+        <strong>成功用例数:</strong> {{ut_stat[4]}} 
+        <strong>总用例数:</strong> {{ut_stat[3]}}
+    </div>
+    <div *ngIf="ciData.coverage[0] as cov">
+        <strong>代码覆盖率:</strong> {{cov[4]}}
+    </div>
+    <div *ngIf="ciData.static_check[0] as static_check">
+        <strong>静态检查超标个数:</strong> {{static_check[4]}}
+    </div><br>
+
+	<ngb-accordion #acc="ngbAccordion">
+	<ngb-panel id="toggle-1" title="详情">
+	<ng-template ngbPanelContent>
+    <div class="row" style="max-height:400px;overflow:auto;font-size:10px">
+		<table class="table table-sm">
+			<thead class="thead-default">
+				<tr>
+					<th>日期</th>
+					<th>文件名</th>
+					<th>函数名</th>
+					<th>圈复杂度</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let _data of ciData.complexity">
+					<td *ngFor="let _i of [1,2,3,4]" 
+						[class]="_data[4] < 20 ? 'table-warning' : 'table-danger'"
+					>{{_data[_i]}}</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</ng-template>
+	</ngb-panel>
+	</ngb-accordion>
+
+	<br>
+	<p>
+	  <ngb-alert type="info" [dismissible]="false">
+		<strong>ST执行情况</strong>
+	  </ngb-alert>
+	</p>
+
+    <div *ngIf="ciData.st_statistic[0] as st_stat ">
+        <strong>ST成功率:</strong> {{st_stat[5]}} 
+        <strong>成功用例数:</strong> {{st_stat[4]}} 
+        <strong>总用例数:</strong> {{st_stat[3]}}
+    </div><br>
+
+	<ngb-accordion #acc="ngbAccordion">
+	<ngb-panel id="toggle-1" title="详情">
+	<ng-template ngbPanelContent>
+    <div class="row" style="max-height:400px;overflow:auto;font-size:10px">
+        <table class="table table-sm">
+            <thead class="thead-default">
+                <tr>
+                    <th>日期</th>
+                    <th>用例编号</th>
+                    <th>用例名称</th>
+                    <th>测试环境</th>
+                    <th>测试结果</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let _data of ciData.st_detail">
+                    <td *ngFor="let _i of [2,3,4,5,6]" 
+                        [class]="_data[6]=='True' ? 'table-success' : 'table-danger'"
+                    >{{_data[_i]}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+	</ng-template>
+	</ngb-panel>
+	</ngb-accordion>
+</div>
