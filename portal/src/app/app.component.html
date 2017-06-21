@@ -1,8 +1,15 @@
 <div class="container" style="font-family: Microsoft YaHei">
     <div class="row">
-      <app-pipline></app-pipline>
-    </div>
-    <div class="row">
-      <app-chart></app-chart>
+        <ngb-carousel>
+            <ng-template ngbSlide>
+                <app-pipline></app-pipline>
+            </ng-template>
+            <ng-template ngbSlide>
+                <app-ec></app-ec>
+            </ng-template>
+            <ng-template ngbSlide>
+                <app-ci></app-ci>
+            </ng-template>
+        </ngb-carousel>
     </div>
 </div>

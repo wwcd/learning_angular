@@ -19,11 +19,11 @@ export class PiplineComponent implements OnInit {
 
     refresh() {
         this.piplineService.getBuild().subscribe(
-            data => this.pipline[0] = data[0],
+            data => this.pipline[0] = [data[0]],
             error => console.error(error)
         );
         this.piplineService.getBuildAll().subscribe(
-            data => this.pipline[1] = data[0],
+            data => this.pipline[1] = [data[0]],
             error => console.error(error)
         );
     }

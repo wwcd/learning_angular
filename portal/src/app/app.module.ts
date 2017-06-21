@@ -7,7 +7,8 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
 
 import { AppComponent } from './app.component';
 import { PiplineComponent } from './pipline/pipline.component';
-import { ChartComponent } from './chart/chart.component';
+import { EcComponent } from './ec/ec.component';
+import { CiComponent } from './ci/ci.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { ChartComponent } from './chart/chart.component';
     declarations: [
         AppComponent,
         PiplineComponent,
-        ChartComponent,
+        EcComponent,
+        CiComponent,
     ],
     providers: [HttpModule],
     bootstrap: [AppComponent]

@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartService } from './chart.service';
-
+import { EcService } from './ec.service';
 
 @Component({
-    selector: 'app-chart',
-    templateUrl: './chart.component.html',
-    providers: [ChartService],
+    selector: 'app-ec',
+    templateUrl: './ec.component.html',
+    providers: [EcService],
 })
-export class ChartComponent implements OnInit {
-    public ciData;
+export class EcComponent implements OnInit {
     public ecData;
 
-    constructor(private chartService: ChartService) { }
+    constructor(private ecService: EcService) { }
 
     ngOnInit() {
         this.refresh();
@@ -19,18 +17,14 @@ export class ChartComponent implements OnInit {
     }
 
     refresh() {
-        this.chartService.getCiData().subscribe(
-            data => this.ciData = data,
-            error => console.error(error)
-        );
-        this.chartService.getEcData().subscribe(
+        this.ecService.getEcData().subscribe(
             data => {
                 this.ecData = data;
-                this.ecData.devinfo.stat_c_15764 = 0;
-                this.ecData.devinfo.stat_c_15765 = 0;
+                this.ecData.devinfo.stat_c_16523 = 0;
+                this.ecData.devinfo.stat_c_16524 = 0;
                 for (let item of this.ecData.devinfo.rows) {
-                    this.ecData.devinfo.stat_c_15764 += Number(item.c_15764);
-                    this.ecData.devinfo.stat_c_15765 += Number(item.c_15765);
+                    this.ecData.devinfo.stat_c_16523 += Number(item.c_16523);
+                    this.ecData.devinfo.stat_c_16524 += Number(item.c_16524);
                 };
 				for (let item of this.ecData.ccbinfo.rows) {
 					for (let i in this.barChartLabels) {
@@ -51,15 +45,15 @@ export class ChartComponent implements OnInit {
 		scaleShowVerticalLines: false,
 		responsive: true
 	};
-	public barChartLabels: string[] = ['待技术审核', '待批准', '待验证', '已验证延期'];
+	public barChartLabels: string[] = ['待技术审核', '待审核', '待验证', '已延期', '已验证延期'];
 	public barChartType: string = 'bar';
 	public barChartLegend: boolean = true;
 
 	public barChartData: any[] = [
-		{data: [0, 0, 0, 0], label: '待CCB处理变更请求数'},
-		{data: [0, 0, 0, 0], label: '待CCB处理变更活动数'},
-		{data: [0, 0, 0, 0], label: '待CCB处理变更请求数（已超期）'},
-		{data: [0, 0, 0, 0], label: '待CCB处理变更活动数（已超期）'},
+		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更请求数'},
+		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更活动数'},
+		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更请求数（已超期）'},
+		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更活动数（已超期）'},
 	];
 
 	public barChartColors:Array<any> = [
