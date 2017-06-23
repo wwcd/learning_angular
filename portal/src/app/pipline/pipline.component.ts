@@ -13,19 +13,22 @@ export class PiplineComponent implements OnInit {
     constructor(private piplineService: PiplineService) { }
 
     ngOnInit() {
-        this.refresh();
-        setInterval(() => this.refresh(), 3000);
+        this.piplineService.httpObservable.subscribe(
+            data => this.refresh(data),
+            error => console.log(error),
+            () => console.log('complete')
+        );
+
+        this.piplineService.wsSubject.retry().subscribe(
+            data => this.refresh(data),
+            error => console.log(error),
+            () => console.log('complete')
+        );
     }
 
-    refresh() {
-        this.piplineService.getBuild().subscribe(
-            data => this.pipline[0] = [data[0]],
-            error => console.error(error)
-        );
-        this.piplineService.getBuildAll().subscribe(
-            data => this.pipline[1] = [data[0]],
-            error => console.error(error)
-        );
+    refresh(data: any): void {
+        this.pipline[0] = [data.verify[0]];
+        this.pipline[1] = [data.single[0]];
     }
 
     duration(_stage: any): string {

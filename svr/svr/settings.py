@@ -16,6 +16,14 @@ import os
 CELERY_BROKER_URL = 'redis://{}:6379/0'.format(os.environ['REDIS_IP'])
 CELERY_RESULT_BACKEND = 'redis://{}'.format(os.environ['REDIS_IP'])
 
+# Channel
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgiref.inmemory.ChannelLayer",
+        "ROUTING": "svr.routing.channel_routing",
+    },
+}
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -44,6 +52,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_celery_beat',
     'app.apps.AppConfig',
+    'channels',
 ]
 
 MIDDLEWARE = [

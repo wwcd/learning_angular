@@ -7,38 +7,42 @@ import { EcService } from './ec.service';
     providers: [EcService],
 })
 export class EcComponent implements OnInit {
-    public ecData;
+    public ecData: any;
 
     constructor(private ecService: EcService) { }
 
     ngOnInit() {
-        this.refresh();
-        setInterval(() => this.refresh(), 3600000);
+        this.ecService.httpObservable.subscribe(
+            data => this.refresh(data),
+            error => console.log(error),
+            () => console.log('complete')
+        );
+
+        this.ecService.wsSubject.retry().subscribe(
+            data => this.refresh(data),
+            error => console.log(error),
+            () => console.log('complete')
+        );
     }
 
-    refresh() {
-        this.ecService.getEcData().subscribe(
-            data => {
-                this.ecData = data;
-                this.ecData.devinfo.stat_c_16523 = 0;
-                this.ecData.devinfo.stat_c_16524 = 0;
-                for (let item of this.ecData.devinfo.rows) {
-                    this.ecData.devinfo.stat_c_16523 += Number(item.c_16523);
-                    this.ecData.devinfo.stat_c_16524 += Number(item.c_16524);
-                };
-				for (let item of this.ecData.ccbinfo.rows) {
-					for (let i in this.barChartLabels) {
-						if (item.c_15772 === this.barChartLabels[i]) {
-							this.barChartData[0].data[i] = item.c_15768;
-							this.barChartData[1].data[i] = item.c_15769;
-							this.barChartData[2].data[i] = item.c_15770;
-							this.barChartData[3].data[i] = item.c_15771;
-						}
-					}
-				};
-            },
-            error => console.error(error)
-        );
+    refresh(data: any): void {
+        this.ecData = data;
+        this.ecData.devinfo.stat_c_16523 = 0;
+        this.ecData.devinfo.stat_c_16524 = 0;
+        for (let item of this.ecData.devinfo.rows) {
+            this.ecData.devinfo.stat_c_16523 += Number(item.c_16523);
+            this.ecData.devinfo.stat_c_16524 += Number(item.c_16524);
+        }
+        for (let item of this.ecData.ccbinfo.rows) {
+            for (let i in this.barChartLabels) {
+                if (item.c_15772 === this.barChartLabels[i]) {
+                    this.barChartData[0].data[i] = item.c_15768;
+                    this.barChartData[1].data[i] = item.c_15769;
+                    this.barChartData[2].data[i] = item.c_15770;
+                    this.barChartData[3].data[i] = item.c_15771;
+                }
+            }
+        }
     }
 
 	public barChartOptions: any = {

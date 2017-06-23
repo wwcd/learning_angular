@@ -1,21 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
-import 'rxjs/add/operator/map';
+import { Observable, Subject } from 'rxjs/Rx';
+import { WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/observable/dom/WebSocketSubject';
 
 @Injectable()
 export class PiplineService {
+    public wsSubject: WebSocketSubject<any>;
+    public httpObservable: Observable<any>;
 
-    constructor(private _http: Http) { }
-
-    getBuild() {
-        return this._http.get(
-            '/vmanager/job/gerrit_VNFM-G_verify/wfapi/runs?fullStages=true'
-        ).map(res => res.json());
-    }
-
-    getBuildAll() {
-        return this._http.get(
-            '/vmanager/job/build_vManager_singleBranch_pipeline/wfapi/runs?fullStages=true'
-        ).map(res => res.json());
+    constructor(private _http: Http) {
+        let config: WebSocketSubjectConfig = {
+            url: 'ws://' + window.location.host + '/websocket/pipline',
+            closeObserver: {
+                next: (e: CloseEvent) => {
+                    console.error('Close pipline ws !!!');
+                }
+            },
+        }
+        this.wsSubject = Observable.webSocket(config);
+        this.httpObservable = this._http.get('/api/v1/pipline').map(res => res.json());
     }
 }

@@ -19,8 +19,16 @@ app.autodiscover_tasks()
 # beat
 app.conf.beat_schedule = {
     'one-minute': {
-        'task': 'app.tasks.db_sync',
-        'schedule': 3600,
+        'task': 'app.tasks.ci_sync',
+        'schedule': 60,
+    },
+    'one-minute': {
+        'task': 'app.tasks.ec_sync',
+        'schedule': 60,
+    },
+    'one-minute': {
+        'task': 'app.tasks.pipline_sync',
+        'schedule': 1,
     },
 }
 

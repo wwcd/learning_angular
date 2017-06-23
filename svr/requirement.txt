@@ -8,3 +8,4 @@ httplib2==0.10.3
 MySQL-python==1.2.5
 redis==2.10.5
 uwsgi==2.0.15
+supervisor==3.3.2

@@ -12,14 +12,20 @@ export class CiComponent implements OnInit {
     constructor(private ciService: CiService) { }
 
     ngOnInit() {
-        this.refresh();
-        setInterval(() => this.refresh(), 3600000);
+        this.ciService.httpObservable.subscribe(
+            data => this.refresh(data),
+            error => console.log(error),
+            () => console.log('complete')
+        );
+
+        this.ciService.wsSubject.retry().subscribe(
+            data => this.refresh(data),
+            error => console.log(error),
+            () => console.log('complete')
+        );
     }
 
-    refresh() {
-        this.ciService.getCiData().subscribe(
-            data => this.ciData = data,
-            error => console.error(error)
-        );
+    refresh(data): any {
+        this.ciData = data;
     }
 }
