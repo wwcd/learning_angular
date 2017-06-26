@@ -24,6 +24,7 @@
           <table class="table table-sm">
             <thead class="thead-default">
               <tr>
+                <th>#</th>
                 <th>日期</th>
                 <th>文件名</th>
                 <th>函数名</th>
@@ -31,7 +32,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let _data of ciData.complexity">
+              <tr *ngFor="let _data of ciData.complexity; let _index=index">
+                <td>{{_index + 1}}</td>
                 <td *ngFor="let _i of [1,2,3,4]" 
                    [class]="_data[4] < 20 ? 'table-warning' : 'table-danger'"
                    >{{_data[_i]}}</td>
@@ -64,6 +66,7 @@
           <table class="table table-sm">
             <thead class="thead-default">
               <tr>
+                <th>#</th>
                 <th>日期</th>
                 <th>用例编号</th>
                 <th>用例名称</th>
@@ -72,7 +75,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let _data of ciData.st_detail">
+              <tr *ngFor="let _data of ciData.st_detail; let _index=index">
+                <td>{{_index + 1}}</td>
                 <td *ngFor="let _i of [2,3,4,5,6]" 
                    [class]="_data[6]=='True' ? 'table-success' : 'table-danger'"
                    >{{_data[_i]}}</td>
