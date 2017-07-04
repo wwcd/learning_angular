@@ -4,7 +4,7 @@ baseurl=http://mirrors.zte.com.cn/epel/7/$basearch
 #mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch
 failovermethod=priority
 enabled=1
-gpgcheck=1
+gpgcheck=0
 gpgkey=http://mirrors.zte.com.cn/epel/RPM-GPG-KEY-EPEL-7
 
 [epel-debuginfo]
@@ -13,7 +13,7 @@ baseurl=http://mirrors.zte.com.cn/epel/7/$basearch/debug
 #mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-debug-7&arch=$basearch
 failovermethod=priority
 enabled=0
-gpgcheck=1
+gpgcheck=0
 gpgkey=http://mirrors.zte.com.cn/epel/RPM-GPG-KEY-EPEL-7
 
 [epel-source]
@@ -22,5 +22,5 @@ baseurl=http://mirrors.zte.com.cn/epel/7/SRPMS
 #mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=epel-source-7&arch=$basearch
 failovermethod=priority
 enabled=0
-gpgcheck=1
+gpgcheck=0
 gpgkey=http://mirrors.zte.com.cn/epel/RPM-GPG-KEY-EPEL-7

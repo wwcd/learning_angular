@@ -14,7 +14,7 @@ import os
 
 # Celery setting
 CELERY_BROKER_URL = 'redis://{}:6379/0'.format(os.environ['REDIS_IP'])
-CELERY_RESULT_BACKEND = 'redis://{}'.format(os.environ['REDIS_IP'])
+# CELERY_RESULT_BACKEND = 'redis://{}'.format(os.environ['REDIS_IP'])
 
 # Channel
 CHANNEL_LAYERS = {

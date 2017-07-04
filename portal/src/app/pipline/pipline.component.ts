@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { NgbProgressbarConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PiplineService } from './pipline.service';
 
@@ -19,7 +20,9 @@ export class PiplineComponent implements OnInit {
             () => console.log('complete')
         );
 
-        this.piplineService.wsSubject.retry().subscribe(
+        this.piplineService.wsSubject.retryWhen(
+            errors => errors.delay(1000)
+        ).subscribe(
             data => this.refresh(data),
             error => console.log(error),
             () => console.log('complete')

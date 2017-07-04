@@ -1,6 +1,7 @@
 /portal/dist/
 /portal/node_modules/
 /portal/src/**/*.js
+/svr/pkg/
 env/
 .ropeproject/
 *.pyc

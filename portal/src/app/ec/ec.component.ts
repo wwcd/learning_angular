@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { EcService } from './ec.service';
 
 @Component({
@@ -18,7 +19,9 @@ export class EcComponent implements OnInit {
             () => console.log('complete')
         );
 
-        this.ecService.wsSubject.retry().subscribe(
+        this.ecService.wsSubject.retryWhen(
+            errors => errors.delay(1000)
+        ).subscribe(
             data => this.refresh(data),
             error => console.log(error),
             () => console.log('complete')

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 import { CiService } from './ci.service';
 
 @Component({
@@ -18,7 +19,9 @@ export class CiComponent implements OnInit {
             () => console.log('complete')
         );
 
-        this.ciService.wsSubject.retry().subscribe(
+        this.ciService.wsSubject.retryWhen(
+            errors => errors.delay(1000)
+        ).subscribe(
             data => this.refresh(data),
             error => console.log(error),
             () => console.log('complete')
