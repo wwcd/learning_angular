@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import { CiService } from './ci.service';
+import { CiService } from './../ci/ci.service';
 
 @Component({
-    selector: 'app-ci',
-    templateUrl: './ci.component.html',
-    styleUrls: ['./ci.component.css'],
+    selector: 'app-gitbr',
+    templateUrl: './gitbr.component.html',
+    styleUrls: ['./gitbr.component.css'],
 })
-export class CiComponent implements OnInit {
+export class GitbrComponent implements OnInit {
     public ciData;
 
     constructor(private ciService: CiService) { }

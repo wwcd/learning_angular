@@ -9,6 +9,9 @@ import { AppComponent } from './app.component';
 import { PiplineComponent } from './pipline/pipline.component';
 import { EcComponent } from './ec/ec.component';
 import { CiComponent } from './ci/ci.component';
+import { LinksComponent } from './pipline/links/links.component';
+import { GitbrComponent } from './gitbr/gitbr.component';
+import { CiService } from './ci/ci.service';
 
 @NgModule({
     imports: [
@@ -22,8 +25,10 @@ import { CiComponent } from './ci/ci.component';
         PiplineComponent,
         EcComponent,
         CiComponent,
+        LinksComponent,
+        GitbrComponent,
     ],
-    providers: [HttpModule],
+    providers: [HttpModule, CiService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

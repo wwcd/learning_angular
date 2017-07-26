@@ -95,6 +95,21 @@ class CiView(APIView):
                 '''.format(from_date),
                 200
             ),
+            "feature_st": self.mysql_qry(
+                '''
+                SELECT *
+                FROM feature_st
+                WHERE product = 'vManager' AND `executdate` >= '{}'
+                ORDER BY executdate DESC;
+                '''.format(from_date),
+            ),
+            "feature_cycle": self.mysql_qry(
+                '''
+                SELECT *
+                FROM feature_cycle
+                WHERE product = 'vManager';
+                ''',
+            ),
         }
 
         return {k: v() for k, v in _handle.items()}
@@ -121,6 +136,9 @@ class CiView(APIView):
 class EcView(APIView):
     def __init__(self):
         self._echost = 'http://10.31.126.16'
+        # TODO
+        self._hr_id = '10067372'
+        self._hr_password = 'P*ssword111'
 
     def get_ecdata(self):
         h = httplib2.Http(proxy_info=None)
@@ -129,7 +147,7 @@ class EcView(APIView):
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': '*/*'
         }
-        body = 'username=10067372&passwd=P*ssword111'
+        body = 'username={}&passwd={}'.format(self._hr_id, self._hr_password)
         resp, content = h.request('{}/Login.do'.format(self._echost),
                                   'POST',
                                   headers=headers,
@@ -164,7 +182,30 @@ class EcView(APIView):
                                           headers=headers,
                                           body=body)
 
-        return {"devinfo": json.loads(content_devinfo), "ccbinfo": json.loads(content_ccbinfo)}
+        body = '''current=1&rowCount=1000&searchPhrase=&id=10232
+&filterID=566&fieldOneId=&fieldSelectOne=&fieldTwoId=
+&fieldSelectTwo=&isPaging=true&whereStr=&summariseStr=
+&filterType=&emailScheam='''
+        resp, content_teaminfo = h.request('{}/model/QueryDbTest.do'.format(self._echost),
+                                           'POST',
+                                           headers=headers,
+                                           body=body)
+
+        body = '''current=1&rowCount=1000&searchPhrase=&id=10525
+&filterID=1208&fieldOneId=&fieldSelectOne=&fieldTwoId=
+&fieldSelectTwo=&isPaging=true&whereStr=&summariseStr=
+&filterType=&emailScheam='''
+        resp, content_expireinfo = h.request('{}/model/QueryDbTest.do'.format(self._echost),
+                                             'POST',
+                                             headers=headers,
+                                             body=body)
+
+        return {
+            "devinfo": json.loads(content_devinfo),
+            "ccbinfo": json.loads(content_ccbinfo),
+            "teaminfo": json.loads(content_teaminfo),
+            "expireinfo": json.loads(content_expireinfo),
+        }
 
     def get(self, request):
         data = cache.get("ecdata")
@@ -190,14 +231,32 @@ class PiplineView(APIView):
         self._echost = 'http://cloudci.zte.com.cn'
 
     def get_piplinedata(self):
-        h = httplib2.Http(proxy_info=None)
-        api = '/vmanager/job/gerrit_VNFM-G_verify/wfapi/runs?fullStages=true'
-        resp, content_verify = h.request('{}{}'.format(self._echost, api), 'GET')
+        _map = {
+            "verify": "gerrit_VNFM-G_verify",
+            "single": "build_vManager_singleBranch_pipeline",
+            "client": "gerrit_VNFM-G_client_verify",
+            "v4comm": "gerrit_VNFM-G_v4comm_verify",
+        }
 
-        api = '/vmanager/job/build_vManager_singleBranch_pipeline/wfapi/runs?fullStages=true'
-        resp, content_single = h.request('{}{}'.format(self._echost, api), 'GET')
+        _ret = {}
 
-        return {"verify": json.loads(content_verify)[0:2], "single": json.loads(content_single)[0:2]}
+        def _pipline_stages(jobname):
+            h = httplib2.Http(proxy_info=None)
+            api = '/vmanager/job/{}/wfapi/runs?fullStages=true'.format(jobname)
+            resp, content = h.request('{}{}'.format(self._echost, api), 'GET')
+            # 'vmanager/job/gerrit_VNFM-G_verify/167/api/json'
+            content = json.loads(content)[0:2]
+            for item in content:
+                api = '/vmanager/job/{}/{}/api/json'.format(jobname, item.get('id'))
+                resp, jobinfo = h.request('{}{}'.format(self._echost, api), 'GET')
+                item.update(jobinfo=json.loads(jobinfo))
+
+            return content
+
+        for k, v in _map.items():
+            _ret.update({k: _pipline_stages(v)})
+
+        return _ret
 
     def get(self, request):
         data = cache.get("piplinedata")

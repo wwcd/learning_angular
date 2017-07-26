@@ -1,36 +1,16 @@
-<div class="container">
-
-  <p>
-  <ngb-alert type="info" [dismissible]="false">
-    <strong>PIPLINE实时监控</strong>
-  </ngb-alert>
-  </p>
-
-  <div class="row" style="font-size:12px">
-    <div class="col" *ngFor="let _links of pipline">
-
-      <table class="table table-sm" *ngFor="let _link of _links">
-        <thead class="thead-default">
-          <tr>
-            <th>
-              <a [href]="_link._links.self.href">{{_link.name}}</a> {{_link.status}} {{duration(_link)}}
-            </th>
-            <th width=90px>STATUS</th>
-            <th width=100px>DURATION</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let _stage of _link.stages">
-            <td>{{_stage.name}}</td>
-            <td *ngIf="status(_stage) as _status">
-              <ngb-progressbar [type]="_status.type" [value]="100" [striped]="_status.striped" [animated]="_status.animated">{{_status.status}}</ngb-progressbar>
-            </td>
-            <td>{{duration(_stage)}}</td>
-          </tr>
-        </tbody>
-      </table>
-
+<div class="row">
+    <div class="col-sm-6">
+        <app-links [links]="pipline[0]" [alias]="'PYTHON代码监控'"></app-links>
     </div>
-  </div>
-
+    <div class="col-sm-6">
+        <div>
+        <app-links [links]="pipline[3]" [alias]="'C++代码监控'"></app-links>
+        </div>
+        <div>
+        <app-links [links]="pipline[2]" [alias]="'客户端代码监控'"></app-links>
+        </div>
+        <div>
+        <app-links [links]="pipline[1]" [alias]="'版本构建监控'"></app-links>
+        </div>
+    </div>
 </div>

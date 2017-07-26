@@ -1,0 +1,24 @@
+<div *ngFor="let _link of links">
+  <div class="pipline-title">{{alias + ": " + jobinfo(_link.jobinfo.actions[5].parameters)}}</div>
+  <table class="table table-sm">
+    <thead class="thead-default">
+      <tr>
+        <th>
+          <a [href]="_link._links.self.href">{{_link.name}}</a> {{_link.status}} {{fmtTime(_link.jobinfo.duration)}}
+        </th>
+        <th width=120px>STATUS</th>
+        <th width=100px>DURATION</th>
+      </tr>
+    </thead>
+    
+    <tbody>
+      <tr *ngFor="let _stage of _link.stages">
+        <td>{{_stage.name}}</td>
+        <td *ngIf="status(_stage) as _status">
+          <ngb-progressbar [type]="_status.type" [value]="100" [striped]="_status.striped" [animated]="_status.animated">{{_status.status}}</ngb-progressbar>
+        </td>
+        <td>{{duration(_stage)}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

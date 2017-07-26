@@ -1,17 +1,26 @@
-<div class="container" style="font-family: Microsoft YaHei">
-    <!-- <ngb-carousel> -->
-    <!--     <ng-template ngbSlide> -->
-    <!--         <app-pipline></app-pipline> -->
-    <!--     </ng-template> -->
-    <!--     <ng-template ngbSlide> -->
-    <!--         <app-ec></app-ec> -->
-    <!--     </ng-template> -->
-    <!--     <ng-template ngbSlide> -->
-    <!--         <app-ci></app-ci> -->
-    <!--     </ng-template> -->
-    <!-- </ngb-carousel> -->
-    <!-- <hr> -->
-    <app-pipline></app-pipline>
-    <app-ec></app-ec>
-    <app-ci></app-ci>
+<div id="main">
+    <header>vManager 敏捷看板</header>
+
+    <div id="nav">
+        <!-- <ul> -->
+        <!--     <li><a href="#">CI监控</a></li> -->
+        <!-- </ul> -->
+        <p [hidden]="(option % 3) !== 0">CI监控</p>
+        <p [hidden]="(option % 3) !== 1">EC监控</p>
+        <p [hidden]="(option % 3) !== 2">特性分支监控</p>
+    </div>
+
+    <div id="content">
+        <div [hidden]="(option % 3) !== 0">
+            <app-pipline></app-pipline>
+            <hr>
+            <app-ci></app-ci>
+        </div>
+        <div [hidden]="(option % 3) !== 1">
+            <app-ec></app-ec>
+        </div>
+        <div [hidden]="(option % 3) !== 2">
+            <app-gitbr></app-gitbr>
+        </div>
+    </div>
 </div>

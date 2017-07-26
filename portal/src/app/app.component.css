@@ -1,0 +1,52 @@
+body {
+    font-family: Microsoft YaHei;
+    margin: 0;
+}
+
+header {
+    position: absolute;
+    background-color: #778899;
+    color: #fff;
+    text-align: center;
+    font-size: 40px;
+    height: 80px;
+    left: 0;
+    right: 0;
+    line-height: 80px;
+    overflow: hidden;
+    border-bottom: 3px solid red;
+}
+
+div#main {
+}
+
+div#nav {
+    position: absolute;
+    background-color: #778899;
+    color: #fff;
+    width: 130px;
+    top: 80px;
+    bottom: 0;
+    left: 0;
+    height: 100%;
+    text-align: center;
+    border-right: 3px solid red;
+}
+
+div#nav p {
+    display: block;
+    font-size: 40px;
+    width: 45px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#content {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    bottom: 0;
+    left: 130px;
+    margin: 20px 30px 10px 30px;
+    font-size: 12px;
+}

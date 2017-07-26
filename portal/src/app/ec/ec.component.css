@@ -1,0 +1,12 @@
+.ec-title {
+    margin: 0;
+    padding-top: 7px;
+    padding-bottom: 7px;
+    background-color: #eceeef;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #292b2c;
+    border-bottom: 2px solid;
+    border-bottom-color: #ccc;
+}
