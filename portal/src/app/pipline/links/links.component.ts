@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
     inputs: ['links', 'alias'],
 })
 export class LinksComponent implements OnInit {
+    public links: Object;
+    public alias: Object;
 
     constructor() { }
 

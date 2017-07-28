@@ -11,6 +11,7 @@ import httplib2
 import json
 import logging
 import re
+import os
 
 from . import ws
 
@@ -78,6 +79,14 @@ class CiView(APIView):
                 ORDER BY executdate DESC;
                 '''.format(from_date)
             ),
+            "st_detail_single": self.mysql_qry(
+                '''
+                SELECT *
+                FROM case_run_st_result
+                WHERE product = 'vManager' AND `executdate` >= '{}' AND vfield = 'ST_S'
+                ORDER BY executdate DESC;
+                '''.format(from_date)
+            ),
             "st_statistic": self.mysql_qry(
                 '''
                 SELECT *
@@ -95,20 +104,13 @@ class CiView(APIView):
                 '''.format(from_date),
                 200
             ),
-            "feature_st": self.mysql_qry(
+            "feature_st_history": self.mysql_qry(
                 '''
                 SELECT *
-                FROM feature_st
+                FROM feature_st_history_new
                 WHERE product = 'vManager' AND `executdate` >= '{}'
                 ORDER BY executdate DESC;
                 '''.format(from_date),
-            ),
-            "feature_cycle": self.mysql_qry(
-                '''
-                SELECT *
-                FROM feature_cycle
-                WHERE product = 'vManager';
-                ''',
             ),
         }
 
@@ -137,8 +139,8 @@ class EcView(APIView):
     def __init__(self):
         self._echost = 'http://10.31.126.16'
         # TODO
-        self._hr_id = '10067372'
-        self._hr_password = 'P*ssword111'
+        self._hr_id = os.environ['HR_USERNAME']
+        self._hr_password = os.environ['HR_PASSWORD']
 
     def get_ecdata(self):
         h = httplib2.Http(proxy_info=None)

@@ -3,15 +3,38 @@
     <div class="ci-title">UT执行情况</div>
     <div style="font-size: 1.2em;">
         <div *ngIf="ciData.ut_statstic[0] as _ut_stat ">
-            UT成功率: {{_ut_stat[5]}}%<br>
-            成功用例数: {{_ut_stat[4]}}<br>
-            总用例数: {{_ut_stat[3]}}
-        </div>
         <div *ngIf="ciData.coverage[0] as cov">
-            代码覆盖率: {{cov[4]}}%
-        </div>
         <div *ngIf="ciData.static_check[0] as _static_check">
-            静态检查超标个数: {{_static_check[4]}}
+        <table class="table table-sm">
+            <tbody>
+                    <tr>
+                        <td>UT成功率</td>
+                        <td [class]="_ut_stat[5] < 100 ? 'table-danger' : ''">
+                            {{_ut_stat[5]}}%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>成功用例数</td>
+                        <td>{{_ut_stat[4]}}</td>
+                    </tr>
+                    <tr>
+                        <td>总用例数</td>
+                        <td>{{_ut_stat[3]}}</td>
+                    </tr>
+                    <tr>
+                        <td>代码覆盖率</td>
+                        <td>{{cov[4]}}%</td>
+                    </tr>
+                    <tr>
+                        <td>静态检查超标个数</td>
+                        <td [class]="_static_check[4] > 0 ? 'table-danger' : ''">
+                            {{_static_check[4]}}
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+        </div>
+        </div>
         </div>
     </div>
     <br>
@@ -46,12 +69,55 @@
   </div>
 
   <div class="col-sm-6">
-    <div class="ci-title">ST执行情况</div>
+    <div class="ci-title">
+        多产品集成ST执行情况
+    </div>
     <div style="font-size: 1.2em;">
         <div *ngIf="ciData.st_statistic[0] as _st_stat">
-            ST成功率: {{_st_stat[5]}}%<br>
-            成功用例数: {{_st_stat[4]}}<br> 
-            总用例数: {{_st_stat[3]}}
+            <table class="table table-sm">
+                <tbody>
+                    <tr>
+                        <td>ST成功率</td>
+                        <td [class]="_st_stat[5] < 100 ? 'table-danger' : ''">
+                            {{_st_stat[5]}}%
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>成功用例数</td>
+                        <td>{{_st_stat[4]}}</td>
+                    </tr>
+                    <tr>
+                        <td>总用例数</td>
+                        <td>{{_st_stat[3]}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div><br>
+
+    <div class="ci-title">
+        单产品集成ST执行情况
+    </div>
+    <div style="font-size: 1.2em;">
+        <div *ngIf="ciData.st_statistic[1] as _st_stat">
+            <table class="table table-sm">
+                <tbody>
+                <tr>
+                    <td>ST成功率</td>
+                    <td [class]="_st_stat[5] < 100 ? 'table-danger' : ''">
+                        {{_st_stat[5]}}%
+                    </td>
+                </tr>
+                <tr>
+                    <td>成功用例数</td>
+                    <td>{{_st_stat[4]}}</td>
+                </tr>
+                <tr>
+                    <td>总用例数</td>
+                    <td>{{_st_stat[3]}}</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div><br>
 

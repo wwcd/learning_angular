@@ -18,7 +18,7 @@ def ci_sync():
         if cache_data != data:
             cache.set("cidata", data)
             h = httplib2.Http(proxy_info=None)
-            h.request('http://localhost:8080/api/v1/ci', 'POST')
+            h.request('http://localhost:4444/api/v1/ci', 'POST')
 
 
 @app.task
@@ -32,7 +32,7 @@ def ec_sync():
         if cache_data != data:
             cache.set("ecdata", data)
             h = httplib2.Http(proxy_info=None)
-            h.request('http://localhost:8080/api/v1/ec', 'POST')
+            h.request('http://localhost:4444/api/v1/ec', 'POST')
 
 
 @app.task
@@ -46,4 +46,4 @@ def pipline_sync():
         if cache_data != data:
             cache.set("piplinedata", data)
             h = httplib2.Http(proxy_info=None)
-            h.request('http://localhost:8080/api/v1/pipline', 'POST')
+            h.request('http://localhost:4444/api/v1/pipline', 'POST')

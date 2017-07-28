@@ -1,10 +1,11 @@
 <div id="main">
-    <header>vManager 敏捷看板</header>
+    <header>
+        <img src="../assets/Logo.png" alt="Logo" style="float:left;padding:15px">
+        vManager 敏捷看板
+    </header>
+    
 
     <div id="nav">
-        <!-- <ul> -->
-        <!--     <li><a href="#">CI监控</a></li> -->
-        <!-- </ul> -->
         <p [hidden]="(option % 3) !== 0">CI监控</p>
         <p [hidden]="(option % 3) !== 1">EC监控</p>
         <p [hidden]="(option % 3) !== 2">特性分支监控</p>

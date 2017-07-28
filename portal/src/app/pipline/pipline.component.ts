@@ -9,7 +9,7 @@ import { PiplineService } from './pipline.service';
     providers: [PiplineService],
 })
 export class PiplineComponent implements OnInit {
-    private pipline: Array<any> = [null, null];
+    public pipline: Array<any> = [null, null];
 
     constructor(private piplineService: PiplineService) { }
 

@@ -3,21 +3,26 @@
         <thead class="thead-default">
             <tr>
                 <th>#</th>
-                <th>执行日期</th>
                 <th>特性分支</th>
                 <th>归属团队</th>
                 <th>总用例数</th>
                 <th>通过用数</th>
-                <th>成功率</th>
+                <th>实时成功率</th>
+                <th colspan=6 style="text-align:center;">最近6天历史记录</th>
+                <th>存在天数</th>
                 <th>是否过期</th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let _data of ciData.feature_st; let _index=index">
-                <td>{{_index + 1}}</td>
-                <td *ngFor="let _i of [2,3,4,5,6,7,8]" 
-               [class]="_data[7]===100 && _data[8]==='true' ? 'table-success' : 'table-danger'"
-               >{{_data[_i]}}</td>
+            <tr *ngFor="let _data of ciData.feature_st_history; let _index=index"
+                [class]="_data[7]==='100%' ? 'table-success' : 'table-danger'"
+                >
+                <td>
+                    {{_index + 1}}
+                </td>
+                <td *ngFor="let _i of [3,4,5,6,7,8,9,10,11,12,13,14,15]">
+                    {{_data[_i]}}
+                </td>
             </tr>
         </tbody>
     </table>

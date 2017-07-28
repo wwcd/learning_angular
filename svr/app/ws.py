@@ -3,6 +3,7 @@ from channels import Group
 from channels.sessions import channel_session
 
 import json
+import datetime
 
 
 # Connected to websocket.connect
@@ -33,9 +34,21 @@ def ws_disconnect(message):
     Group(message.channel_session['g']).discard(message.reply_channel)
 
 
+class MyEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, datetime.date):
+            return obj.strftime("%Y-%m-%d")
+
+        if isinstance(obj, datetime.datetime):
+            return obj.strftime("%Y-%m-%d %H:%M:%S")
+
+        return json.JSONEncoder.default(self, obj)
+
+
 def ws_send(g, data):
     if not isinstance(data, str):
-        data = json.dumps(data)
+        data = json.dumps(data, cls=MyEncoder)
     Group(g).send({
         "text": "%s" % data,
     })

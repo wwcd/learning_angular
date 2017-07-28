@@ -13,7 +13,7 @@ export class AppComponent  implements OnInit {
     public option = 0;
 
     constructor() {
-        this._ival = Observable.interval(5000);
+        this._ival = Observable.interval(10000);
     }
 
     ngOnInit() {

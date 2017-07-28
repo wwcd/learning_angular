@@ -45,18 +45,20 @@
 
   <div class="row">
     <div class="col-sm-8" style="display: block">
+
       <div class="ec-title">待CCB处理</div>
       <canvas baseChart height=110
-         [datasets]="barChartData"
-         [labels]="barChartLabels"
+         [datasets]="barCCBChartData"
+         [labels]="barCCBChartLabels"
          [options]="barChartOptions"
-         [colors]="barChartColors"
+         [colors]="barCCBChartColors"
          [legend]="barChartLegend"
          [chartType]="barChartType"
          (chartHover)="chartHovered($event)"
          (chartClick)="chartClicked($event)"></canvas>
 
-      <br>
+      <br><br>
+
       <div class="ec-title">待开发处理(团队)</div>
       <canvas baseChart height=110
          [datasets]="barTeamChartData"
@@ -67,8 +69,9 @@
          [chartType]="barChartType"
          (chartHover)="chartHovered($event)"
          (chartClick)="chartClicked($event)"></canvas>
+
     </div>
-    <div class="col-sm-4" style="max-height:900px;overflow:auto">
+    <div class="col-sm-4" style="max-height:900px;overflow:auto;font-size:10px">
         <div class="ec-title">待开发处理(已超期)</div>
         <table class="table table-sm">
             <thead class="thead-default">
