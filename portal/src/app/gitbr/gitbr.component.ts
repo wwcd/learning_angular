@@ -29,5 +29,9 @@ export class GitbrComponent implements OnInit {
 
     refresh(data): any {
         this.ciData = data;
+        this.ciData.feature_st_history = this.ciData.feature_st_history.sort(
+            (x, y) => x[4].localeCompare(y[4])
+        )
+        
     }
 }

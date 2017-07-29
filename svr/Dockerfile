@@ -19,4 +19,5 @@ RUN pip install -i http://mirrors.zte.com.cn/pypi/simple -U pip \
 COPY . /home/svr/
 
 WORKDIR /home/svr/
+
 CMD supervisord -c supervisord.conf
