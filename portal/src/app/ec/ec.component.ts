@@ -13,11 +13,11 @@ export class EcComponent implements OnInit {
     constructor(private ecService: EcService) { }
 
     ngOnInit() {
-        this.ecService.httpObservable.subscribe(
-            data => this.refresh(data),
-            error => console.log(error),
-            () => console.log('complete')
-        );
+        // this.ecService.httpObservable.subscribe(
+        //     data => this.refresh(data),
+        //     error => console.log(error),
+        //     () => console.log('complete')
+        // );
 
         this.ecService.wsSubject.retryWhen(
             errors => errors.delay(1000)

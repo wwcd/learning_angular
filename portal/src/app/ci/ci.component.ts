@@ -13,11 +13,11 @@ export class CiComponent implements OnInit {
     constructor(private ciService: CiService) { }
 
     ngOnInit() {
-        this.ciService.httpObservable.subscribe(
-            data => this.refresh(data),
-            error => console.log(error),
-            () => console.log('complete')
-        );
+        // this.ciService.httpObservable.subscribe(
+        //     data => this.refresh(data),
+        //     error => console.log(error),
+        //     () => console.log('complete')
+        // );
 
         this.ciService.wsSubject.retryWhen(
             errors => errors.delay(1000)

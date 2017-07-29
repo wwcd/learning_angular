@@ -14,11 +14,11 @@ export class PiplineComponent implements OnInit {
     constructor(private piplineService: PiplineService) { }
 
     ngOnInit() {
-        this.piplineService.httpObservable.subscribe(
-            data => this.refresh(data),
-            error => console.log(error),
-            () => console.log('complete')
-        );
+        // this.piplineService.httpObservable.subscribe(
+        //     data => this.refresh(data),
+        //     error => console.log(error),
+        //     () => console.log('complete')
+        // );
 
         this.piplineService.wsSubject.retryWhen(
             errors => errors.delay(1000)

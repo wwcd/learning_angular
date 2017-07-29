@@ -131,7 +131,10 @@ class CiView(APIView):
     def post(self, request):
         data = cache.get("cidata")
         if data is not None:
-            ws.ws_send('ci', data)
+            if request.data is None:
+                ws.ws_send('ci', data)
+            else:
+                ws.ws_send('ci', data, request.data.get("channel_name", None))
         return Response(status.HTTP_200_OK)
 
 
@@ -224,7 +227,10 @@ class EcView(APIView):
     def post(self, request):
         data = cache.get("ecdata")
         if data is not None:
-            ws.ws_send('ec', data)
+            if request.data is None:
+                ws.ws_send('ec', data)
+            else:
+                ws.ws_send('ec', data, request.data.get("channel_name", None))
         return Response(status.HTTP_200_OK)
 
 
@@ -275,5 +281,8 @@ class PiplineView(APIView):
     def post(self, request):
         data = cache.get("piplinedata")
         if data is not None:
-            ws.ws_send('pipline', data)
+            if request.data is None:
+                ws.ws_send('pipline', data)
+            else:
+                ws.ws_send('pipline', data, request.data.get("channel_name", None))
         return Response(status.HTTP_200_OK)
