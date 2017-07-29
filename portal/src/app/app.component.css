@@ -5,22 +5,36 @@ body {
 
 header {
     position: absolute;
+    left: 0;
+    right: 0;
     background-color: #31b0d5;
     color: #fff;
     text-align: center;
     font-size: 40px;
     height: 80px;
-    left: 0;
-    right: 0;
     line-height: 80px;
     overflow: hidden;
     border-bottom: 3px solid red;
 }
 
-div#main {
+#title {
+    position: absolute;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
-div#nav {
+#logo {
+    position: absolute;
+    left: 15px;
+    top: 18px;
+    z-index: 2;
+}
+
+#main {
+}
+
+#nav {
     position: absolute;
     background-color: #31b0d5;
     color: #fff;
@@ -33,7 +47,7 @@ div#nav {
     border-right: 3px solid red;
 }
 
-div#nav p {
+#nav p {
     display: block;
     font-size: 40px;
     width: 45px;
@@ -41,7 +55,7 @@ div#nav p {
     margin-right: auto;
 }
 
-div#content {
+#content {
     position: absolute;
     top: 80px;
     right: 0;
