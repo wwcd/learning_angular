@@ -11,3 +11,4 @@ redis==2.10.5
 uWSGI==2.0.15
 supervisor
 supervisor-stdout
+flower

@@ -20,15 +20,15 @@ app.autodiscover_tasks()
 app.conf.beat_schedule = {
     'ci': {
         'task': 'app.tasks.ci_sync',
-        'schedule': 5,
+        'schedule': 30,
     },
     'ec': {
         'task': 'app.tasks.ec_sync',
-        'schedule': 5,
+        'schedule': 30,
     },
     'pipline': {
         'task': 'app.tasks.pipline_sync',
-        'schedule': 1,
+        'schedule': 5,
     },
 }
 
