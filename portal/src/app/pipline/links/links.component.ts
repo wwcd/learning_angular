@@ -15,6 +15,12 @@ export class LinksComponent implements OnInit {
     ngOnInit() {
     }
 
+    tsToString(ms: number): string {
+        let ts = new Date(ms);
+
+        return ts.toLocaleString();
+    }
+
     fmtTime(ms: number): string {
         let seconds = 0;
 

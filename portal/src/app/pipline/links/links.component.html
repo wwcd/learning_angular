@@ -4,7 +4,8 @@
     <thead class="thead-default">
       <tr>
         <th>
-          <a [href]="_link._links.self.href">{{_link.name}}</a> {{_link.status}} {{fmtTime(_link.jobinfo.duration)}}
+            <a [href]="_link._links.self.href">{{_link.name}}</a> 
+            {{_link.status}} {{fmtTime(_link.jobinfo.duration)}} {{tsToString(_link.jobinfo.timestamp)}}
         </th>
         <th width=120px>STATUS</th>
         <th width=100px>DURATION</th>
