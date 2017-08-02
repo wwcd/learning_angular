@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AppService } from './app.service'
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subscription } from 'rxjs/Rx';
 
 @Component({
     selector: 'app-root',
@@ -8,19 +9,31 @@ import { Observable } from 'rxjs/Rx';
     styleUrls: ['./app.component.css'],
     providers: [AppService],
 })
-export class AppComponent  implements OnInit { 
-    private _ival: Observable<any>;
+export class AppComponent  implements OnInit {
     public option = 0;
+    public subscription: Subscription;
 
-    constructor() {
-        this._ival = Observable.interval(10000);
-    }
+    constructor(private _route: ActivatedRoute) { }
 
     ngOnInit() {
-		this._ival.subscribe(
-			x => {
-				this.option++;
-			}
-		) 
-	}
+        this.subscription = Observable.interval(10000).subscribe(
+            x => {
+                this.option++;
+            }
+        )
+        this._route.queryParams.subscribe(
+            x => {
+                let interval = parseInt(x.interval);
+                if (interval === interval) {
+                    console.log(interval);
+                    this.subscription.unsubscribe();
+                    this.subscription = Observable.interval(interval * 1000).subscribe(
+                        x => {
+                            this.option++;
+                        }
+                    )
+                }
+            }
+        )
+    }
 }

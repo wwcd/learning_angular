@@ -71,22 +71,6 @@ class CiView(APIView):
                 ORDER BY executdate DESC;
                 '''.format(from_date)
             ),
-            "st_detail": self.mysql_qry(
-                '''
-                SELECT *
-                FROM case_run_st_result
-                WHERE product = 'vManager' AND `executdate` >= '{}' AND vfield = 'ST_M'
-                ORDER BY executdate DESC;
-                '''.format(from_date)
-            ),
-            "st_detail_single": self.mysql_qry(
-                '''
-                SELECT *
-                FROM case_run_st_result
-                WHERE product = 'vManager' AND `executdate` >= '{}' AND vfield = 'ST_S'
-                ORDER BY executdate DESC;
-                '''.format(from_date)
-            ),
             "st_statistic": self.mysql_qry(
                 '''
                 SELECT *
@@ -94,15 +78,6 @@ class CiView(APIView):
                 WHERE product = 'vManager' AND `executdate` >= '{}'
                 ORDER BY executdate DESC;
                 '''.format(from_date)
-            ),
-            "complexity": self.mysql_qry(
-                '''
-                SELECT *
-                FROM code_complexity
-                WHERE product = 'vManager' AND `executdate` >= '{}' AND complexity > 10.0
-                ORDER BY executdate DESC,complexity DESC;
-                '''.format(from_date),
-                200
             ),
             "feature_st_history": self.mysql_qry(
                 '''
@@ -252,8 +227,7 @@ class PiplineView(APIView):
             h = httplib2.Http(proxy_info=None)
             api = '/vmanager/job/{}/wfapi/runs?fullStages=true'.format(jobname)
             resp, content = h.request('{}{}'.format(self._echost, api), 'GET')
-            # 'vmanager/job/gerrit_VNFM-G_verify/167/api/json'
-            content = json.loads(content)[0:2]
+            content = json.loads(content)[0:1]
             for item in content:
                 api = '/vmanager/job/{}/{}/api/json'.format(jobname, item.get('id'))
                 resp, jobinfo = h.request('{}{}'.format(self._echost, api), 'GET')
