@@ -5,22 +5,30 @@
     </header>
 
     <div id="nav">
-        <p [hidden]="(option % 3) !== 0">CI监控</p>
-        <p [hidden]="(option % 3) !== 1">EC监控</p>
-        <p [hidden]="(option % 3) !== 2">特性分支监控</p>
+        <div *ngIf="dynamic">
+            <p [hidden]="(option % 3) !== 0">CI监控</p>
+            <p [hidden]="(option % 3) !== 1">EC监控</p>
+            <p [hidden]="(option % 3) !== 2">特性分支监控</p>
+        </div>
+        <div *ngIf="!dynamic">
+            <p>监控</p>
+        </div>
     </div>
 
     <div id="content">
-        <div [hidden]="(option % 3) !== 0">
+        <div [hidden]="(option % 3) !== 0 && dynamic">
             <app-pipline></app-pipline>
             <hr>
             <app-ci></app-ci>
+            <hr>
         </div>
-        <div [hidden]="(option % 3) !== 1">
+        <div [hidden]="(option % 3) !== 1 && dynamic">
             <app-ec></app-ec>
+            <hr>
         </div>
-        <div [hidden]="(option % 3) !== 2">
+        <div [hidden]="(option % 3) !== 2 && dynamic">
             <app-gitbr></app-gitbr>
+            <hr>
         </div>
     </div>
 </div>

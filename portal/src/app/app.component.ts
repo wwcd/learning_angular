@@ -11,6 +11,7 @@ import { Observable, Subscription } from 'rxjs/Rx';
 })
 export class AppComponent  implements OnInit {
     public option = 0;
+    public dynamic = true;
     public subscription: Subscription;
 
     constructor(private _route: ActivatedRoute) { }
@@ -25,13 +26,15 @@ export class AppComponent  implements OnInit {
             x => {
                 let interval = parseInt(x.interval);
                 if (interval === interval) {
-                    console.log(interval);
                     this.subscription.unsubscribe();
                     this.subscription = Observable.interval(interval * 1000).subscribe(
                         x => {
                             this.option++;
                         }
                     )
+                }
+                if ('dynamic' in x) {
+                    this.dynamic = x.dynamic === 'true'
                 }
             }
         )
