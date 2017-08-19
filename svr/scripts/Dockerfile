@@ -14,6 +14,6 @@ RUN easy_install -i http://mirrors.zte.com.cn/pypi/simple twisted \
 WORKDIR /home/svr/
 
 COPY src conf/supervisord.conf /home/svr/
-RUN python manage.py makemigrations && python manage.py migrate --run-syncdb
+# RUN python manage.py makemigrations && python manage.py migrate --run-syncdb
 
 CMD supervisord -c supervisord.conf

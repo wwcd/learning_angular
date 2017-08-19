@@ -116,7 +116,7 @@ docker run -d \
     --restart=always \
     --name portal  \
     -p 8080:80 \
-    -e "SVR_URL=http://127.0.0.1:4444" \
+    -e "SVR_URL=http://10.42.6.0:4444" \
     docker.zte.com.cn:5000/fbi/portal
 ```
 

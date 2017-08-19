@@ -52,13 +52,20 @@ INSTALLED_APPS = [
     'channels',
 ]
 
-MIDDLEWARE = []
+MIDDLEWARE = [
+    'django.contrib.sessions.middleware.SessionMiddleware',
+]
 
 ROOT_URLCONF = 'svr.urls'
 
 TEMPLATES = []
 
 WSGI_APPLICATION = 'svr.wsgi.application'
+
+
+# Session
+# https://docs.djangoproject.com/en/1.11/ref/settings/#sessions
+SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 
 
 # Database
