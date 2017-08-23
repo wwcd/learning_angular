@@ -10,8 +10,6 @@ import datetime
 import httplib2
 import json
 import logging
-import re
-import os
 
 from . import ws
 
@@ -28,6 +26,7 @@ class CiView(APIView):
                     db='ciudc',
                     charset='utf8'
                 )
+        super(CiView, self).__init__()
 
     def mysql_qry(self, sql, size=None):
         def _execute():
@@ -38,7 +37,7 @@ class CiView(APIView):
                 data = cur.fetchall()
                 for i, v in enumerate(data[0]):
                     if isinstance(v, datetime.date):
-                        data = filter(lambda x: x[i] == data[0][i], data)
+                        data = [x for x in data if x[i] == data[0][i]]
                         break
             cur.close()
             return data if size is None else data[:size]
@@ -96,7 +95,7 @@ class CiView(APIView):
         if data is None:
             try:
                 data = self.get_cidata()
-            except:
+            except Exception:
                 logger.error("get_cidata coredump")
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             else:
@@ -115,84 +114,31 @@ class CiView(APIView):
 
 class EcView(APIView):
     def __init__(self):
-        self._echost = 'http://10.31.126.16'
-        # TODO
-        self._hr_id = os.environ['HR_USERNAME']
-        self._hr_password = os.environ['HR_PASSWORD']
+        self._restapi = 'http://10.40.68.88:8082/QueryIndicatorData'
+        super(EcView, self).__init__()
 
     def get_ecdata(self):
+        _maps = {
+            'ccbinfo': '每日EC.04.001.待CCB处理变更单（状态）',
+            'teaminfo': '每日EC.01.001.待开发处理（按照团队状态）',
+            'devinfo': '每日EC.02.001.待开发处理的变更单详细数据（按照人员计）',
+        }
+
+        _ecdata = {}
         h = httplib2.Http(proxy_info=None)
+        for k, v in _maps.iteritems():
+            url = self._restapi + '?WorkSpace=vManager&IndicatorName={}&FilterName='.format(v)
+            resp, content = h.request(url, 'GET')
+            _ecdata.update({k: json.loads(content)})
 
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': '*/*'
-        }
-        body = 'username={}&passwd={}'.format(self._hr_id, self._hr_password)
-        resp, content = h.request('{}/Login.do'.format(self._echost),
-                                  'POST',
-                                  headers=headers,
-                                  body=body)
-        mobj = re.match(r'.*JSESSIONID=([0-9A-Z]*);.*', resp.get('set-cookie', ''))
-        if not mobj:
-            logger.error("Login failed", resp, content)
-            raise Exception("Login failed!")
-        sid = mobj.group(1)
-
-        headers = {
-            'Cookie': 'wpdbBrowserInform=hasInform;JSESSIONID={};testName=testValues'.format(sid),
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': '*/*'
-        }
-
-        body = '''current=1&rowCount=1000&searchPhrase=&id=10524
-&filterID=1207&fieldOneId=&fieldSelectOne=&fieldTwoId=
-&fieldSelectTwo=&isPaging=true&whereStr=&summariseStr=
-&filterType=&emailScheam='''
-        resp, content_devinfo = h.request('{}/model/QueryDbTest.do'.format(self._echost),
-                                          'POST',
-                                          headers=headers,
-                                          body=body)
-
-        body = '''current=1&rowCount=1000&searchPhrase=&id=10473
-&filterID=1100&fieldOneId=&fieldSelectOne=&fieldTwoId=
-&fieldSelectTwo=&isPaging=true&whereStr=&summariseStr=
-&filterType=&emailScheam='''
-        resp, content_ccbinfo = h.request('{}/model/QueryDbTest.do'.format(self._echost),
-                                          'POST',
-                                          headers=headers,
-                                          body=body)
-
-        body = '''current=1&rowCount=1000&searchPhrase=&id=10232
-&filterID=566&fieldOneId=&fieldSelectOne=&fieldTwoId=
-&fieldSelectTwo=&isPaging=true&whereStr=&summariseStr=
-&filterType=&emailScheam='''
-        resp, content_teaminfo = h.request('{}/model/QueryDbTest.do'.format(self._echost),
-                                           'POST',
-                                           headers=headers,
-                                           body=body)
-
-        body = '''current=1&rowCount=1000&searchPhrase=&id=10525
-&filterID=1208&fieldOneId=&fieldSelectOne=&fieldTwoId=
-&fieldSelectTwo=&isPaging=true&whereStr=&summariseStr=
-&filterType=&emailScheam='''
-        resp, content_expireinfo = h.request('{}/model/QueryDbTest.do'.format(self._echost),
-                                             'POST',
-                                             headers=headers,
-                                             body=body)
-
-        return {
-            "devinfo": json.loads(content_devinfo),
-            "ccbinfo": json.loads(content_ccbinfo),
-            "teaminfo": json.loads(content_teaminfo),
-            "expireinfo": json.loads(content_expireinfo),
-        }
+        return _ecdata
 
     def get(self, request):
         data = cache.get("ecdata")
         if data is None:
             try:
                 data = self.get_ecdata()
-            except:
+            except Exception:
                 logger.error("get_ecdata coredump")
                 Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             else:
@@ -211,7 +157,8 @@ class EcView(APIView):
 
 class PiplineView(APIView):
     def __init__(self):
-        self._echost = 'http://cloudci.zte.com.cn'
+        self._host = 'http://cloudci.zte.com.cn'
+        super(PiplineView, self).__init__()
 
     def get_piplinedata(self):
         _map = {
@@ -226,11 +173,11 @@ class PiplineView(APIView):
         def _pipline_stages(jobname):
             h = httplib2.Http(proxy_info=None)
             api = '/vmanager/job/{}/wfapi/runs?fullStages=true'.format(jobname)
-            resp, content = h.request('{}{}'.format(self._echost, api), 'GET')
+            resp, content = h.request('{}{}'.format(self._host, api), 'GET')
             content = json.loads(content)[0:1]
             for item in content:
                 api = '/vmanager/job/{}/{}/api/json'.format(jobname, item.get('id'))
-                resp, jobinfo = h.request('{}{}'.format(self._echost, api), 'GET')
+                resp, jobinfo = h.request('{}{}'.format(self._host, api), 'GET')
                 item.update(jobinfo=json.loads(jobinfo))
 
             return content
@@ -245,7 +192,7 @@ class PiplineView(APIView):
         if data is None:
             try:
                 data = self.get_piplinedata()
-            except:
+            except Exception:
                 logger.error("get_piplinedata coredump")
                 Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             else:

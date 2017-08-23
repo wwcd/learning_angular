@@ -1,48 +1,4 @@
 <div *ngIf="ecData">
-
-  <!-- <p> -->
-  <!-- <ngb-alert type="info" [dismissible]="false"> -->
-  <!--   <strong>待开发处理变更</strong> -->
-  <!-- </ngb-alert> -->
-  <!-- </p> -->
-
-  <!-- <div> -->
-  <!--   <strong>待开发处理变更活动数:</strong> {{ecData.devinfo.stat_c_16523}}<br> -->
-  <!--   <strong>待开发处理变量研究数:</strong> {{ecData.devinfo.stat_c_16524}} -->
-  <!-- </div><br> -->
-
-  <!-- <ngb-accordion #acc="ngbAccordion"> -->
-  <!--   <ngb-panel id="toggle-1" title="详情"> -->
-  <!--     <ng-template ngbPanelContent> -->
-  <!--       <div class="row" style="max-height:400px;overflow:auto;font-size:10px"> -->
-  <!--         <table class="table table-sm"> -->
-  <!--           <thead class="thead-default"> -->
-  <!--             <tr> -->
-  <!--               <th>变更单处理人</th> -->
-  <!--               <th>待处理变更活动单</th> -->
-  <!--               <th>待处理变更研究单</th> -->
-  <!--               <th>待处理总数</th> -->
-  <!--             </tr> -->
-  <!--           </thead> -->
-  <!--           <tbody> -->
-  <!--             <tr *ngFor="let _data of ecData.devinfo.rows"> -->
-  <!--               <td *ngFor="let _i of ['c_16521','c_16523','c_16524','c_16525']"> -->
-  <!--                 {{_data[_i]}} -->
-  <!--               </td> -->
-  <!--             </tr> -->
-  <!--           </tbody> -->
-  <!--         </table> -->
-  <!--       </div> -->
-  <!--     </ng-template> -->
-  <!--   </ngb-panel> -->
-  <!-- </ngb-accordion> -->
-
-  <!-- <p> -->
-  <!-- <ngb-alert type="info" [dismissible]="false"> -->
-  <!--   <strong>待CCB处理变更</strong> -->
-  <!-- </ngb-alert> -->
-  <!-- </p> -->
-
   <div class="row">
     <div class="col-sm-8" style="display: block">
 
@@ -84,9 +40,9 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let _data of ecData.expireinfo.rows; let _index=index">
+                <tr *ngFor="let _data of ecData.devinfo; let _index=index">
                     <td>{{_index + 1}}</td>
-                    <td *ngFor="let _i of ['c_16526','c_16528','c_16529','c_16530']">
+                    <td *ngFor="let _i of ['变更单处理人','待处理的变更活动单','待处理的变更研究单','待处理总数']">
                         {{_data[_i]}}
                     </td>
                 </tr>
@@ -94,34 +50,5 @@
         </table>
     </div>
   </div>
-
-
-  <!-- <ngb-accordion #acc="ngbAccordion"> -->
-  <!--   <ngb-panel id="toggle-1" title="详情"> -->
-  <!--     <ng-template ngbPanelContent> -->
-  <!--       <div class="row" style="max-height:400px;overflow:auto;font-size:10px"> -->
-  <!--         <table class="table table-sm"> -->
-  <!--           <thead class="thead-default"> -->
-  <!--             <tr> -->
-  <!--               <th>状态</th> -->
-  <!--               <th>待CCB处理变更请求数</th> -->
-  <!--               <th>待CCB处理变更活动数</th> -->
-  <!--               <th>待CCB处理变更请求数（已超期）</th> -->
-  <!--               <th>待CCB处理变更活动数（已超期）</th> -->
-  <!--             </tr> -->
-  <!--           </thead> -->
-  <!--           <tbody> -->
-  <!--             <tr *ngFor="let _data of ecData.ccbinfo.rows"> -->
-  <!--               <td *ngFor="let _i of ['c_15772','c_15768','c_15769','c_15770', 'c_15771']"> -->
-  <!--                 {{_data[_i]}} -->
-  <!--               </td> -->
-  <!--             </tr> -->
-  <!--           </tbody> -->
-  <!--         </table> -->
-  <!--       </div> -->
-  <!--     </ng-template> -->
-  <!--   </ngb-panel> -->
-  <!-- </ngb-accordion> -->
-
 </div>
 <br>

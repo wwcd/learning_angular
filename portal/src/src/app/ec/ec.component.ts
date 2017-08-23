@@ -30,36 +30,42 @@ export class EcComponent implements OnInit {
 
     refresh(data: any): void {
         this.ecData = data;
-        this.ecData.devinfo.stat_c_16523 = 0;
-        this.ecData.devinfo.stat_c_16524 = 0;
-        for (let item of this.ecData.devinfo.rows) {
-            this.ecData.devinfo.stat_c_16523 += Number(item.c_16523);
-            this.ecData.devinfo.stat_c_16524 += Number(item.c_16524);
-        }
-        for (let item of this.ecData.ccbinfo.rows) {
+        for (let item of this.ecData.ccbinfo) {
             for (let i in this.barCCBChartLabels) {
-                if (item.c_15772 === this.barCCBChartLabels[i]) {
-                    this.barCCBChartData[0].data[i] = item.c_15768;
-                    this.barCCBChartData[1].data[i] = item.c_15769;
-                    this.barCCBChartData[2].data[i] = item.c_15770;
-                    this.barCCBChartData[3].data[i] = item.c_15771;
+                if (item['状态'] === this.barCCBChartLabels[i]) {
+                    this.barCCBChartData[0].data[i] = item['待CCB处理变更请求数']
+                    this.barCCBChartData[1].data[i] = item['待CCB处理变更活动数'];
+                    this.barCCBChartData[2].data[i] = item['待CCB处理变更请求（已超期）'];
+                    this.barCCBChartData[3].data[i] = item['待CCB处理变更活动数（已超期）'];
                 }
             }
         }
-        for (let item of this.ecData.teaminfo.rows) {
+        for (let item of this.ecData.teaminfo) {
             for (let i in this.barTeamChartLabelsMatch) {
-                if (item.c_12879 === this.barTeamChartLabelsMatch[i]) {
+                if (item['特性团队'] === this.barTeamChartLabelsMatch[i]) {
                     for (let j in this.barTeamChartData) {
-                        if (item.c_15612 === this.barTeamChartData[j]. label) {
-                            this.barTeamChartData[j].data[i] = Number(item.c_12897) + Number(item.c_12898);
+                        if (item['状态'] === this.barTeamChartData[j].label) {
+                            let a = Number(item['待处理的变更活动单']);
+                            let b = Number(item['待处理的变更研究单']);
+                            this.barTeamChartData[j].data[i] = a===a ? a : b;
+                            break;
                         }
                     }
+                    break;
                 }
             }
         }
-        this.ecData.expireinfo.rows = this.ecData.expireinfo.rows.sort(
-            (x, y) => y.c_16530 - x.c_16530
+        this.ecData.devinfo = this.ecData.devinfo.sort(
+            (x, y) => y['待处理总数'] - x['待处理总数']
         );
+        this.ecData.devinfo.forEach(x => {
+            if (x['待处理的变更研究单'] === 'None') {
+                x['待处理的变更研究单'] = '';
+            }
+            if (x['待处理的变更活动单'] === 'None') {
+                x['待处理的变更活动单'] = '';
+            }
+        });
     }
 
 	public barChartOptions: any = {
@@ -70,13 +76,13 @@ export class EcComponent implements OnInit {
 	public barChartLegend: boolean = true;
 
     //CCB
-	public barCCBChartLabels: string[] = ['待技术审核', '待审核', '待验证', '已延期', '已验证延期'];
+	public barCCBChartLabels: string[] = ['待技术审核', '待批准', '待审核', '待指派验证', '待验证', '待指派验证', '已延期', '已验证延期'];
 
 	public barCCBChartData: any[] = [
-		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更请求数'},
-		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更活动数'},
-		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更请求数（已超期）'},
-		{data: [0, 0, 0, 0, 0], label: '待CCB处理变更活动数（已超期）'},
+		{data: [0, 0, 0, 0, 0, 0, 0, 0], label: '待CCB处理变更请求数'},
+		{data: [0, 0, 0, 0, 0, 0, 0, 0], label: '待CCB处理变更活动数'},
+		{data: [0, 0, 0, 0, 0, 0, 0, 0], label: '待CCB处理变更请求数（已超期）'},
+		{data: [0, 0, 0, 0, 0, 0, 0, 0], label: '待CCB处理变更活动数（已超期）'},
 	];
 
 	public barCCBChartColors:Array<any> = [
@@ -96,10 +102,10 @@ export class EcComponent implements OnInit {
 
     // 团队EC
     public barTeamChartLabelsMatch: string[] = [
-        'vManager SE', 
-        'vManager ST组', 
-        'vManager UI', 
-        'vManager-凌云团队', 
+        'vManager SE',
+        'vManager ST组',
+        'vManager UI',
+        'vManager-凌云团队',
         'vManager-圣甲虫团队',
         'vManager-喜洋洋团队',
         'vManager-云间团队',
@@ -108,10 +114,10 @@ export class EcComponent implements OnInit {
     ];
 
     public barTeamChartLabels: string[] = [
-        'SE', 
-        'ST组', 
-        'UI', 
-        '凌云团队', 
+        'SE',
+        'ST组',
+        'UI',
+        '凌云团队',
         '圣甲虫团队',
         '喜洋洋团队',
         '云间团队',
