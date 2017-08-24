@@ -30,6 +30,14 @@ vManager CI监控
 
 ## 2 组件简单说明
 
+### 2.0 依赖
+
+celery和django依赖redis，需要准备好redis环境
+
+```
+docker run -d --restart=always --name REDIS -p 6379:6379 docker.zte.com.cn:5000/aha/redis
+```
+
 ### 2.1 后端
 
 #### 2.1.1 技术栈
