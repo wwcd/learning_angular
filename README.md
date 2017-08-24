@@ -4,7 +4,7 @@ vManager CI监控
 
 ```
     +---------------------------------------+
-    |              Portal                   |
+    |            Portal(angular)            |
     +---------------------------------------+
                        A
                        | 数据推送(WEBSOCKET)
@@ -24,6 +24,8 @@ vManager CI监控
      |度量MYSQL| | Jinkens   | | 无线度量 |
      +---------+ +-----------+ +----------+
 ```
+
+*度量系统对接需要申请开通对接IP，参见度量[WIKI](http://wiki.zte.com.cn/pages/viewpage.action?pageId=124387611)*
 
 
 ## 2 组件简单说明
@@ -58,7 +60,7 @@ cd svr
 make
 ```
 
-运行, HR_USERNAME/HR_PASSWORD需要根据实际情况填写
+运行
 
 ```
 docker run -d \
@@ -66,7 +68,6 @@ docker run -d \
     --name svr \
     -p 4444:4444 -p 9001:9001 -p 9002:9002 \
     -e REDIS_IP=10.42.6.0 \
-    -e HR_USERNAME=10067372 -e HR_PASSWORD=***** \
     docker.zte.com.cn:5000/fbi/svr
 ```
 
