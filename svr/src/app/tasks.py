@@ -1,8 +1,11 @@
 from celery import Celery
 from django.core.cache import cache
 import httplib2
+import logging
 
 from . import views
+
+logger = logging.getLogger(__name__)
 
 app = Celery()
 
@@ -16,6 +19,7 @@ def ci_sync():
     else:
         cache_data = cache.get("cidata")
         if cache_data != data:
+            logger.debug("data chg, sync")
             cache.set("cidata", data)
             h = httplib2.Http(proxy_info=None)
             h.request('http://localhost:4444/api/v1/ci', 'POST')
@@ -30,6 +34,7 @@ def ec_sync():
     else:
         cache_data = cache.get("ecdata")
         if cache_data != data:
+            logger.debug("data chg, sync")
             cache.set("ecdata", data)
             h = httplib2.Http(proxy_info=None)
             h.request('http://localhost:4444/api/v1/ec', 'POST')
@@ -44,6 +49,7 @@ def pipline_sync():
     else:
         cache_data = cache.get("piplinedata")
         if cache_data != data:
+            logger.debug("data chg, sync")
             cache.set("piplinedata", data)
             h = httplib2.Http(proxy_info=None)
             h.request('http://localhost:4444/api/v1/pipline', 'POST')

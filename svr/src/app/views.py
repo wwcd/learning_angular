@@ -129,7 +129,9 @@ class EcView(APIView):
         for k, v in _maps.iteritems():
             url = self._restapi + '?WorkSpace=vManager&IndicatorName={}&FilterName='.format(v)
             resp, content = h.request(url, 'GET')
-            _ecdata.update({k: json.loads(content)})
+            content = json.load(content)
+            logger.debug("resp:%s, content:%s", resp, content)
+            _ecdata.update({k: content})
 
         return _ecdata
 
@@ -175,10 +177,13 @@ class PiplineView(APIView):
             api = '/vmanager/job/{}/wfapi/runs?fullStages=true'.format(jobname)
             resp, content = h.request('{}{}'.format(self._host, api), 'GET')
             content = json.loads(content)[0:1]
+            logger.debug("resp:%s, content:%s", resp, content)
             for item in content:
                 api = '/vmanager/job/{}/{}/api/json'.format(jobname, item.get('id'))
                 resp, jobinfo = h.request('{}{}'.format(self._host, api), 'GET')
-                item.update(jobinfo=json.loads(jobinfo))
+                jobinfo = json.loads(jobinfo)
+                logger.debug("resp:%s, content:%s", resp, content)
+                item.update(jobinfo=jobinfo)
 
             return content
 
